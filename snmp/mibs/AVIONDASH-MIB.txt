@@ -1,0 +1,832 @@
+AVIONDASH-MIB DEFINITIONS ::= BEGIN
+
+------------------------------------------------------------------------
+--  AvionDash Enterprise MIB
+--  Enterprise OID : 1.3.6.1.4.1.21308  (Neomon)
+--  Application    : 1.3.6.1.4.1.21308.1
+--  Version        : 1.0.0
+------------------------------------------------------------------------
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+    Integer32, Counter32, Counter64, Gauge32, TimeTicks,
+    enterprises
+        FROM SNMPv2-SMI
+    DisplayString, TruthValue
+        FROM SNMPv2-TC
+    MODULE-COMPLIANCE, OBJECT-GROUP, NOTIFICATION-GROUP
+        FROM SNMPv2-CONF;
+
+------------------------------------------------------------------------
+--  Root
+------------------------------------------------------------------------
+neomon OBJECT IDENTIFIER ::= { enterprises 21308 }
+
+aviondashMIB MODULE-IDENTITY
+    LAST-UPDATED "202604280000Z"
+    ORGANIZATION "Neomon"
+    CONTACT-INFO "noc@neomon.local"
+    DESCRIPTION  "AvionDash aviation operations monitoring MIB."
+    REVISION     "202604280000Z"
+    DESCRIPTION  "Initial release."
+    ::= { neomon 1 }
+
+------------------------------------------------------------------------
+--  Groups
+------------------------------------------------------------------------
+avdSystem       OBJECT IDENTIFIER ::= { aviondashMIB 1 }
+avdApplication  OBJECT IDENTIFIER ::= { aviondashMIB 2 }
+avdWeb          OBJECT IDENTIFIER ::= { aviondashMIB 3 }
+avdDatabase     OBJECT IDENTIFIER ::= { aviondashMIB 4 }
+avdContainers   OBJECT IDENTIFIER ::= { aviondashMIB 5 }
+avdOperations   OBJECT IDENTIFIER ::= { aviondashMIB 6 }
+avdChaos        OBJECT IDENTIFIER ::= { aviondashMIB 7 }
+avdTraps        OBJECT IDENTIFIER ::= { aviondashMIB 10 }
+avdConformance  OBJECT IDENTIFIER ::= { aviondashMIB 99 }
+
+------------------------------------------------------------------------
+--  1. SYSTEM   .1.3.6.1.4.1.21308.1.1
+------------------------------------------------------------------------
+avdSysName OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..64))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Application service name."
+    ::= { avdSystem 1 }
+
+avdSysVersion OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Application version string."
+    ::= { avdSystem 2 }
+
+avdSysEnvironment OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Deployment environment."
+    ::= { avdSystem 3 }
+
+avdSysUptime OBJECT-TYPE
+    SYNTAX      TimeTicks
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Application uptime in hundredths of a second."
+    ::= { avdSystem 4 }
+
+avdSysHealthState OBJECT-TYPE
+    SYNTAX      INTEGER { unknown(0), healthy(1), degraded(2), critical(3) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Overall system health state."
+    ::= { avdSystem 5 }
+
+avdSysHealthMessage OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..255))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Human-readable health state description."
+    ::= { avdSystem 6 }
+
+avdSysLastRestart OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "ISO 8601 timestamp of last application restart."
+    ::= { avdSystem 7 }
+
+------------------------------------------------------------------------
+--  2. APPLICATION   .1.3.6.1.4.1.21308.1.2
+------------------------------------------------------------------------
+avdAppRequestsTotal OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total HTTP requests served since start."
+    ::= { avdApplication 1 }
+
+avdAppRequestsErrors OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total HTTP 5xx responses since start."
+    ::= { avdApplication 2 }
+
+avdAppErrorRate OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "permille"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "5xx error rate in permille (0-1000)."
+    ::= { avdApplication 3 }
+
+avdAppLatencyP50 OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "milliseconds"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Median request latency."
+    ::= { avdApplication 4 }
+
+avdAppLatencyP95 OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "milliseconds"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "P95 request latency."
+    ::= { avdApplication 5 }
+
+avdAppLatencyP99 OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "milliseconds"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "P99 request latency."
+    ::= { avdApplication 6 }
+
+avdAppActiveSessions OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Active authenticated sessions."
+    ::= { avdApplication 7 }
+
+avdAppLoginSuccess OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Successful logins since start."
+    ::= { avdApplication 8 }
+
+avdAppLoginFailure OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Failed login attempts since start."
+    ::= { avdApplication 9 }
+
+avdAppMemoryUsedKB OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "kilobytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Resident memory of the FastAPI process."
+    ::= { avdApplication 10 }
+
+avdAppCpuPercent OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "percent"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "CPU utilisation of the FastAPI process (0-100)."
+    ::= { avdApplication 11 }
+
+avdAppThreadCount OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Thread count of the FastAPI process."
+    ::= { avdApplication 12 }
+
+------------------------------------------------------------------------
+--  3. WEB (Nginx)   .1.3.6.1.4.1.21308.1.3
+------------------------------------------------------------------------
+avdWebStatus OBJECT-TYPE
+    SYNTAX      INTEGER { up(1), down(2), unknown(3) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Nginx web tier status."
+    ::= { avdWeb 1 }
+
+avdWebRequestsTotal OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total HTTP requests received by Nginx."
+    ::= { avdWeb 2 }
+
+avdWebActiveConnections OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Currently active Nginx connections."
+    ::= { avdWeb 3 }
+
+avdWebUpstreamLatencyMs OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "milliseconds"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Average upstream response time."
+    ::= { avdWeb 4 }
+
+avdWebStatus2xx OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Count of 2xx responses."
+    ::= { avdWeb 5 }
+
+avdWebStatus4xx OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Count of 4xx responses."
+    ::= { avdWeb 6 }
+
+avdWebStatus5xx OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Count of 5xx responses."
+    ::= { avdWeb 7 }
+
+avdWebBytesSent OBJECT-TYPE
+    SYNTAX      Counter64
+    UNITS       "bytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total bytes sent in HTTP responses."
+    ::= { avdWeb 8 }
+
+------------------------------------------------------------------------
+--  4. DATABASE (MySQL)   .1.3.6.1.4.1.21308.1.4
+------------------------------------------------------------------------
+avdDbStatus OBJECT-TYPE
+    SYNTAX      INTEGER { up(1), down(2), degraded(3), unknown(4) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "MySQL database tier status."
+    ::= { avdDatabase 1 }
+
+avdDbConnectionsActive OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Active connections from app pool."
+    ::= { avdDatabase 2 }
+
+avdDbConnectionsMax OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Maximum connections (pool + overflow)."
+    ::= { avdDatabase 3 }
+
+avdDbConnectionsWaiting OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Requests waiting for a DB connection."
+    ::= { avdDatabase 4 }
+
+avdDbQueriesTotal OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total queries executed since start."
+    ::= { avdDatabase 5 }
+
+avdDbSlowQueries OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Queries taking longer than 1 second."
+    ::= { avdDatabase 6 }
+
+avdDbAvgQueryTimeMs OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "milliseconds"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Average query execution time."
+    ::= { avdDatabase 7 }
+
+avdDbErrors OBJECT-TYPE
+    SYNTAX      Counter64
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Database errors since start."
+    ::= { avdDatabase 8 }
+
+avdDbLastErrorMessage OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..255))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Most recent database error message."
+    ::= { avdDatabase 9 }
+
+------------------------------------------------------------------------
+--  5. CONTAINERS   .1.3.6.1.4.1.21308.1.5
+--     Index: 1=aviondash-db  2=aviondash-app  3=aviondash-web
+------------------------------------------------------------------------
+avdContainerTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF AvdContainerEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "Table of AvionDash Docker containers."
+    ::= { avdContainers 1 }
+
+avdContainerEntry OBJECT-TYPE
+    SYNTAX      AvdContainerEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "One row per AvionDash container."
+    INDEX       { avdContainerIndex }
+    ::= { avdContainerTable 1 }
+
+AvdContainerEntry ::= SEQUENCE {
+    avdContainerIndex       Integer32,
+    avdContainerName        DisplayString,
+    avdContainerTier        DisplayString,
+    avdContainerImage       DisplayString,
+    avdContainerStatus      INTEGER,
+    avdContainerHealth      INTEGER,
+    avdContainerCpuPercent  Gauge32,
+    avdContainerMemUsedKB   Gauge32,
+    avdContainerMemLimitKB  Gauge32,
+    avdContainerNetRxBytes  Counter64,
+    avdContainerNetTxBytes  Counter64,
+    avdContainerRestarts    Counter32,
+    avdContainerUptime      TimeTicks
+}
+
+avdContainerIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..255)
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "Container table index."
+    ::= { avdContainerEntry 1 }
+
+avdContainerName OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..64))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Container name."
+    ::= { avdContainerEntry 2 }
+
+avdContainerTier OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Tier: web, application, database."
+    ::= { avdContainerEntry 3 }
+
+avdContainerImage OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..128))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Docker image name."
+    ::= { avdContainerEntry 4 }
+
+avdContainerStatus OBJECT-TYPE
+    SYNTAX      INTEGER { running(1), stopped(2), restarting(3), exited(4), unknown(5) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Docker lifecycle status."
+    ::= { avdContainerEntry 5 }
+
+avdContainerHealth OBJECT-TYPE
+    SYNTAX      INTEGER { healthy(1), unhealthy(2), starting(3), none(4) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Docker health-check status."
+    ::= { avdContainerEntry 6 }
+
+avdContainerCpuPercent OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "percent"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Container CPU utilisation (0-100)."
+    ::= { avdContainerEntry 7 }
+
+avdContainerMemUsedKB OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "kilobytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Memory used by container."
+    ::= { avdContainerEntry 8 }
+
+avdContainerMemLimitKB OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "kilobytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Container memory limit (0=unlimited)."
+    ::= { avdContainerEntry 9 }
+
+avdContainerNetRxBytes OBJECT-TYPE
+    SYNTAX      Counter64
+    UNITS       "bytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Bytes received by the container."
+    ::= { avdContainerEntry 10 }
+
+avdContainerNetTxBytes OBJECT-TYPE
+    SYNTAX      Counter64
+    UNITS       "bytes"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Bytes transmitted by the container."
+    ::= { avdContainerEntry 11 }
+
+avdContainerRestarts OBJECT-TYPE
+    SYNTAX      Counter32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Container restart count."
+    ::= { avdContainerEntry 12 }
+
+avdContainerUptime OBJECT-TYPE
+    SYNTAX      TimeTicks
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Container uptime in hundredths of a second."
+    ::= { avdContainerEntry 13 }
+
+------------------------------------------------------------------------
+--  6. OPERATIONS   .1.3.6.1.4.1.21308.1.6
+------------------------------------------------------------------------
+avdOpsTotalFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total flights tracked."
+    ::= { avdOperations 1 }
+
+avdOpsActiveFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights currently en route."
+    ::= { avdOperations 2 }
+
+avdOpsScheduledFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights in scheduled status."
+    ::= { avdOperations 3 }
+
+avdOpsBoardingFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights in boarding status."
+    ::= { avdOperations 4 }
+
+avdOpsDelayedFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights with non-zero delay."
+    ::= { avdOperations 5 }
+
+avdOpsCancelledFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights with cancelled status."
+    ::= { avdOperations 6 }
+
+avdOpsLandedFlights OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Flights with landed status."
+    ::= { avdOperations 7 }
+
+avdOpsOnTimeRate OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "permille"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "On-time rate in permille (0-1000)."
+    ::= { avdOperations 8 }
+
+avdOpsTotalAircraft OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total aircraft in fleet."
+    ::= { avdOperations 9 }
+
+avdOpsActiveAircraft OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Aircraft with active status."
+    ::= { avdOperations 10 }
+
+avdOpsMaintenanceAircraft OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Aircraft in maintenance."
+    ::= { avdOperations 11 }
+
+avdOpsGroundedAircraft OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Aircraft in grounded status."
+    ::= { avdOperations 12 }
+
+avdOpsFleetUtilisation OBJECT-TYPE
+    SYNTAX      Gauge32
+    UNITS       "permille"
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Active / total aircraft ratio in permille."
+    ::= { avdOperations 13 }
+
+avdOpsTotalAirports OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Total airports in registry."
+    ::= { avdOperations 14 }
+
+------------------------------------------------------------------------
+--  7. CHAOS   .1.3.6.1.4.1.21308.1.7
+------------------------------------------------------------------------
+avdChaosActiveFaults OBJECT-TYPE
+    SYNTAX      Gauge32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Number of currently active fault injections."
+    ::= { avdChaos 1 }
+
+avdChaosTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF AvdChaosEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "Per-fault state table (14 rows)."
+    ::= { avdChaos 2 }
+
+avdChaosEntry OBJECT-TYPE
+    SYNTAX      AvdChaosEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "One row per fault."
+    INDEX       { avdChaosIndex }
+    ::= { avdChaosTable 1 }
+
+AvdChaosEntry ::= SEQUENCE {
+    avdChaosIndex      Integer32,
+    avdChaosKey        DisplayString,
+    avdChaosLabel      DisplayString,
+    avdChaosTier       DisplayString,
+    avdChaosSeverity   INTEGER,
+    avdChaosEnabled    TruthValue,
+    avdChaosLastChange DisplayString
+}
+
+avdChaosIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..64)
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "Fault row index."
+    ::= { avdChaosEntry 1 }
+
+avdChaosKey OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..64))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Fault key (e.g. slow_queries)."
+    ::= { avdChaosEntry 2 }
+
+avdChaosLabel OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..128))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Human-readable fault label."
+    ::= { avdChaosEntry 3 }
+
+avdChaosTier OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Tier: application or container."
+    ::= { avdChaosEntry 4 }
+
+avdChaosSeverity OBJECT-TYPE
+    SYNTAX      INTEGER { warning(1), critical(2) }
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Fault severity."
+    ::= { avdChaosEntry 5 }
+
+avdChaosEnabled OBJECT-TYPE
+    SYNTAX      TruthValue
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Fault active: true(1) or false(2)."
+    ::= { avdChaosEntry 6 }
+
+avdChaosLastChange OBJECT-TYPE
+    SYNTAX      DisplayString (SIZE (0..32))
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "ISO 8601 timestamp of last state change."
+    ::= { avdChaosEntry 7 }
+
+------------------------------------------------------------------------
+--  10. NOTIFICATIONS   .1.3.6.1.4.1.21308.1.10.0.*
+------------------------------------------------------------------------
+avdTrapPrefix OBJECT IDENTIFIER ::= { avdTraps 0 }
+
+avdTrapAppDown NOTIFICATION-TYPE
+    OBJECTS { avdSysName, avdSysHealthMessage }
+    STATUS  current
+    DESCRIPTION "FastAPI application unreachable."
+    ::= { avdTrapPrefix 1 }
+
+avdTrapAppUp NOTIFICATION-TYPE
+    OBJECTS { avdSysName, avdSysUptime }
+    STATUS  current
+    DESCRIPTION "FastAPI application recovered."
+    ::= { avdTrapPrefix 2 }
+
+avdTrapContainerRestart NOTIFICATION-TYPE
+    OBJECTS { avdContainerName, avdContainerStatus, avdContainerRestarts }
+    STATUS  current
+    DESCRIPTION "A container has restarted."
+    ::= { avdTrapPrefix 3 }
+
+avdTrapContainerUnhealthy NOTIFICATION-TYPE
+    OBJECTS { avdContainerName, avdContainerHealth }
+    STATUS  current
+    DESCRIPTION "A container health check is failing."
+    ::= { avdTrapPrefix 4 }
+
+avdTrapHighErrorRate NOTIFICATION-TYPE
+    OBJECTS { avdAppErrorRate, avdAppRequestsErrors, avdSysHealthMessage }
+    STATUS  current
+    DESCRIPTION "Application error rate exceeds threshold."
+    ::= { avdTrapPrefix 10 }
+
+avdTrapLatencyDegraded NOTIFICATION-TYPE
+    OBJECTS { avdAppLatencyP95, avdAppLatencyP99, avdSysHealthMessage }
+    STATUS  current
+    DESCRIPTION "Request latency exceeds threshold."
+    ::= { avdTrapPrefix 11 }
+
+avdTrapHighMemoryUsage NOTIFICATION-TYPE
+    OBJECTS { avdContainerName, avdContainerMemUsedKB, avdContainerMemLimitKB }
+    STATUS  current
+    DESCRIPTION "Container memory exceeds 80 percent of limit."
+    ::= { avdTrapPrefix 12 }
+
+avdTrapHighCpuUsage NOTIFICATION-TYPE
+    OBJECTS { avdContainerName, avdContainerCpuPercent }
+    STATUS  current
+    DESCRIPTION "Container CPU exceeds 80 percent."
+    ::= { avdTrapPrefix 13 }
+
+avdTrapDbDown NOTIFICATION-TYPE
+    OBJECTS { avdDbStatus, avdDbLastErrorMessage }
+    STATUS  current
+    DESCRIPTION "Database tier unreachable."
+    ::= { avdTrapPrefix 20 }
+
+avdTrapDbSlowQueries NOTIFICATION-TYPE
+    OBJECTS { avdDbAvgQueryTimeMs, avdDbSlowQueries }
+    STATUS  current
+    DESCRIPTION "Average query time exceeds threshold."
+    ::= { avdTrapPrefix 21 }
+
+avdTrapDbPoolExhausted NOTIFICATION-TYPE
+    OBJECTS { avdDbConnectionsActive, avdDbConnectionsMax, avdDbConnectionsWaiting }
+    STATUS  current
+    DESCRIPTION "Database connection pool exhausted."
+    ::= { avdTrapPrefix 22 }
+
+avdTrapFlightCancelled NOTIFICATION-TYPE
+    OBJECTS { avdOpsCancelledFlights, avdOpsTotalFlights }
+    STATUS  current
+    DESCRIPTION "A flight has been cancelled."
+    ::= { avdTrapPrefix 30 }
+
+avdTrapAircraftGrounded NOTIFICATION-TYPE
+    OBJECTS { avdOpsGroundedAircraft, avdOpsTotalAircraft }
+    STATUS  current
+    DESCRIPTION "An aircraft has been grounded."
+    ::= { avdTrapPrefix 31 }
+
+avdTrapFaultActivated NOTIFICATION-TYPE
+    OBJECTS { avdChaosKey, avdChaosLabel, avdChaosSeverity }
+    STATUS  current
+    DESCRIPTION "A chaos fault has been activated."
+    ::= { avdTrapPrefix 40 }
+
+avdTrapFaultDeactivated NOTIFICATION-TYPE
+    OBJECTS { avdChaosKey, avdChaosLabel }
+    STATUS  current
+    DESCRIPTION "A chaos fault has been deactivated."
+    ::= { avdTrapPrefix 41 }
+
+avdTrapCascadingFailure NOTIFICATION-TYPE
+    OBJECTS { avdChaosActiveFaults, avdSysHealthState, avdSysHealthMessage }
+    STATUS  current
+    DESCRIPTION "Cascading failure: multiple simultaneous faults."
+    ::= { avdTrapPrefix 42 }
+
+avdTrapAuthFailureBurst NOTIFICATION-TYPE
+    OBJECTS { avdAppLoginFailure }
+    STATUS  current
+    DESCRIPTION "Burst of authentication failures."
+    ::= { avdTrapPrefix 50 }
+
+------------------------------------------------------------------------
+--  99. CONFORMANCE
+------------------------------------------------------------------------
+avdMIBGroups      OBJECT IDENTIFIER ::= { avdConformance 1 }
+avdMIBCompliances OBJECT IDENTIFIER ::= { avdConformance 2 }
+
+avdSystemGroup OBJECT-GROUP
+    OBJECTS { avdSysName, avdSysVersion, avdSysEnvironment, avdSysUptime,
+              avdSysHealthState, avdSysHealthMessage, avdSysLastRestart }
+    STATUS  current
+    DESCRIPTION "System objects."
+    ::= { avdMIBGroups 1 }
+
+avdAppGroup OBJECT-GROUP
+    OBJECTS { avdAppRequestsTotal, avdAppRequestsErrors, avdAppErrorRate,
+              avdAppLatencyP50, avdAppLatencyP95, avdAppLatencyP99,
+              avdAppActiveSessions, avdAppLoginSuccess, avdAppLoginFailure,
+              avdAppMemoryUsedKB, avdAppCpuPercent, avdAppThreadCount }
+    STATUS  current
+    DESCRIPTION "Application metric objects."
+    ::= { avdMIBGroups 2 }
+
+avdWebGroup OBJECT-GROUP
+    OBJECTS { avdWebStatus, avdWebRequestsTotal, avdWebActiveConnections,
+              avdWebUpstreamLatencyMs, avdWebStatus2xx, avdWebStatus4xx,
+              avdWebStatus5xx, avdWebBytesSent }
+    STATUS  current
+    DESCRIPTION "Web tier objects."
+    ::= { avdMIBGroups 3 }
+
+avdDbGroup OBJECT-GROUP
+    OBJECTS { avdDbStatus, avdDbConnectionsActive, avdDbConnectionsMax,
+              avdDbConnectionsWaiting, avdDbQueriesTotal, avdDbSlowQueries,
+              avdDbAvgQueryTimeMs, avdDbErrors, avdDbLastErrorMessage }
+    STATUS  current
+    DESCRIPTION "Database tier objects."
+    ::= { avdMIBGroups 4 }
+
+avdContainerGroup OBJECT-GROUP
+    OBJECTS { avdContainerName, avdContainerTier, avdContainerImage,
+              avdContainerStatus, avdContainerHealth, avdContainerCpuPercent,
+              avdContainerMemUsedKB, avdContainerMemLimitKB,
+              avdContainerNetRxBytes, avdContainerNetTxBytes,
+              avdContainerRestarts, avdContainerUptime }
+    STATUS  current
+    DESCRIPTION "Container objects."
+    ::= { avdMIBGroups 5 }
+
+avdOpsGroup OBJECT-GROUP
+    OBJECTS { avdOpsTotalFlights, avdOpsActiveFlights, avdOpsScheduledFlights,
+              avdOpsBoardingFlights, avdOpsDelayedFlights, avdOpsCancelledFlights,
+              avdOpsLandedFlights, avdOpsOnTimeRate, avdOpsTotalAircraft,
+              avdOpsActiveAircraft, avdOpsMaintenanceAircraft,
+              avdOpsGroundedAircraft, avdOpsFleetUtilisation, avdOpsTotalAirports }
+    STATUS  current
+    DESCRIPTION "Operations objects."
+    ::= { avdMIBGroups 6 }
+
+avdChaosGroup OBJECT-GROUP
+    OBJECTS { avdChaosActiveFaults, avdChaosKey, avdChaosLabel, avdChaosTier,
+              avdChaosSeverity, avdChaosEnabled, avdChaosLastChange }
+    STATUS  current
+    DESCRIPTION "Chaos engine objects."
+    ::= { avdMIBGroups 7 }
+
+avdTrapGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { avdTrapAppDown, avdTrapAppUp,
+                    avdTrapContainerRestart, avdTrapContainerUnhealthy,
+                    avdTrapHighErrorRate, avdTrapLatencyDegraded,
+                    avdTrapHighMemoryUsage, avdTrapHighCpuUsage,
+                    avdTrapDbDown, avdTrapDbSlowQueries, avdTrapDbPoolExhausted,
+                    avdTrapFlightCancelled, avdTrapAircraftGrounded,
+                    avdTrapFaultActivated, avdTrapFaultDeactivated,
+                    avdTrapCascadingFailure, avdTrapAuthFailureBurst }
+    STATUS  current
+    DESCRIPTION "All AvionDash notifications."
+    ::= { avdMIBGroups 10 }
+
+avdMIBCompliance MODULE-COMPLIANCE
+    STATUS  current
+    DESCRIPTION "AvionDash MIB compliance."
+    MODULE
+        MANDATORY-GROUPS { avdSystemGroup, avdAppGroup, avdWebGroup,
+                           avdDbGroup, avdContainerGroup, avdOpsGroup,
+                           avdChaosGroup, avdTrapGroup }
+    ::= { avdMIBCompliances 1 }
+
+END

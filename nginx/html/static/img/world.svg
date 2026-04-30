@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" preserveAspectRatio="none">
+  <rect width="900" height="440" fill="#050d1a"/>
+
+  <!-- North America -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.7"
+    d="M70,42 L85,38 L100,36 L115,36 L130,38 L142,42 L152,48 L160,55
+       L168,62 L174,70 L178,78 L180,86 L180,95 L178,104 L174,112
+       L170,120 L166,128 L162,136 L158,142 L154,148 L148,155 L142,162
+       L136,168 L130,174 L124,180 L118,186 L112,192 L106,198 L100,204
+       L94,210 L88,216 L82,220 L76,222 L70,220 L65,215 L62,208
+       L60,200 L58,192 L56,184 L54,175 L52,166 L50,158 L48,150
+       L46,142 L44,134 L42,126 L41,118 L40,110 L40,102 L41,94
+       L42,86 L44,78 L47,70 L51,62 L56,55 L62,48 Z"/>
+
+  <!-- Alaska -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.6"
+    d="M30,50 L40,45 L50,44 L58,48 L62,55 L58,62 L50,65 L42,62 L34,58 Z"/>
+
+  <!-- Greenland -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.6"
+    d="M148,18 L162,14 L175,16 L184,22 L188,30 L185,38 L178,44
+       L168,48 L158,48 L148,44 L140,38 L138,30 L140,22 Z"/>
+
+  <!-- Central America + Caribbean -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M100,204 L108,208 L114,215 L116,222 L112,228 L106,230
+       L100,226 L96,218 L96,210 Z"/>
+
+  <!-- Cuba -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M112,196 L122,194 L128,198 L124,204 L114,204 L110,200 Z"/>
+
+  <!-- South America -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.7"
+    d="M116,230 L128,226 L140,228 L152,232 L162,238 L170,246
+       L176,255 L178,265 L176,276 L172,287 L166,298 L158,308
+       L150,318 L142,328 L136,338 L130,348 L126,356 L124,364
+       L122,370 L120,364 L118,355 L116,345 L114,335 L113,324
+       L112,312 L111,300 L111,288 L111,276 L112,264 L113,252
+       L114,242 Z"/>
+
+  <!-- Iceland -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M368,40 L378,38 L386,42 L384,50 L374,52 L366,48 Z"/>
+
+  <!-- United Kingdom -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M400,72 L408,68 L414,72 L414,80 L408,84 L402,80 Z"/>
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M398,62 L404,60 L408,64 L404,68 L398,66 Z"/>
+
+  <!-- Scandinavia -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M440,30 L450,26 L460,26 L468,30 L472,38 L470,47 L464,54
+       L456,58 L448,56 L442,50 L438,42 Z"/>
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M462,32 L472,28 L480,30 L482,38 L478,46 L470,48 L464,44 L460,36 Z"/>
+
+  <!-- Finland -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M472,26 L484,22 L494,25 L495,34 L490,42 L480,46 L472,42 L469,34 Z"/>
+
+  <!-- Western Europe -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.6"
+    d="M406,84 L418,80 L430,80 L442,82 L452,86 L460,92 L464,100
+       L462,108 L456,114 L448,118 L438,120 L428,118 L418,114
+       L410,108 L404,100 L402,92 Z"/>
+
+  <!-- Iberian Peninsula -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M402,118 L414,116 L424,118 L428,126 L424,134 L414,138
+       L404,136 L396,130 L394,122 Z"/>
+
+  <!-- Italy -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M440,110 L448,108 L454,113 L452,122 L446,128 L440,124
+       L437,116 Z"/>
+
+  <!-- Eastern Europe / Balkans -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M454,88 L470,86 L484,88 L492,95 L490,104 L482,110 L470,112
+       L458,110 L450,103 L450,94 Z"/>
+
+  <!-- Russia / Northern Asia (large) -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.7"
+    d="M472,24 L495,18 L525,14 L560,11 L598,10 L636,11 L670,13
+       L700,18 L724,24 L742,32 L754,42 L758,52 L754,62 L744,70
+       L728,76 L708,80 L688,83 L665,85 L640,86 L614,88 L588,89
+       L562,90 L536,91 L510,91 L486,90 L466,88 L450,84 L440,78
+       L436,68 L438,58 L444,48 L452,38 L460,30 Z"/>
+
+  <!-- Kazakhstan / Central Asia -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.5"
+    d="M490,95 L520,92 L550,93 L575,97 L590,105 L588,115 L578,122
+       L560,126 L538,126 L515,122 L498,115 L490,106 Z"/>
+
+  <!-- Middle East / Arabian Peninsula -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M490,120 L510,116 L530,116 L548,120 L558,128 L560,138
+       L555,148 L542,156 L525,160 L508,158 L494,150 L486,140
+       L486,130 Z"/>
+
+  <!-- Turkey / Anatolia -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M462,110 L482,108 L500,110 L512,116 L512,124 L500,128
+       L480,128 L462,124 L454,116 Z"/>
+
+  <!-- Africa (full) -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.7"
+    d="M410,140 L428,136 L446,136 L462,140 L476,148 L484,158
+       L488,170 L486,183 L480,196 L472,208 L462,220 L452,232
+       L442,244 L434,256 L427,268 L421,280 L418,292 L416,304
+       L415,316 L415,328 L416,340 L418,350 L420,358 L418,350
+       L415,340 L412,330 L409,318 L407,306 L405,294 L403,282
+       L401,270 L400,258 L399,246 L398,234 L398,222 L398,210
+       L399,198 L401,186 L404,175 L408,164 L412,154 L416,146 Z"/>
+
+  <!-- Madagascar -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M492,248 L500,244 L506,250 L504,262 L498,270 L492,266
+       L489,256 Z"/>
+
+  <!-- Indian Subcontinent -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.6"
+    d="M568,120 L586,116 L602,118 L614,126 L618,138 L614,150
+       L606,163 L596,175 L586,185 L578,192 L574,185 L571,176
+       L569,166 L568,155 L567,144 L567,132 Z"/>
+
+  <!-- Sri Lanka -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.15)" stroke-width="0.4"
+    d="M592,194 L597,192 L600,197 L596,203 L591,200 Z"/>
+
+  <!-- China -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.6"
+    d="M614,88 L640,84 L665,83 L688,84 L706,89 L718,97 L722,108
+       L716,119 L704,128 L686,134 L664,136 L642,134 L622,128
+       L607,120 L600,110 L601,99 L607,91 Z"/>
+
+  <!-- Korean Peninsula -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M708,88 L716,85 L722,89 L720,98 L712,102 L706,98 L704,91 Z"/>
+
+  <!-- Japan (Honshu) -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M722,80 L734,76 L742,80 L740,90 L730,94 L720,90 Z"/>
+  <!-- Japan (Kyushu/Shikoku) -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M726,94 L736,92 L740,98 L734,104 L724,102 Z"/>
+
+  <!-- Indochina / SE Asia -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.25)" stroke-width="0.5"
+    d="M638,136 L655,134 L668,138 L676,147 L672,158 L660,165
+       L645,165 L634,158 L629,147 L631,137 Z"/>
+
+  <!-- Thailand Gulf -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M657,162 L664,160 L668,167 L662,174 L655,170 Z"/>
+
+  <!-- Malay Peninsula -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M660,168 L666,165 L669,172 L665,180 L659,178 Z"/>
+
+  <!-- Borneo -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M680,170 L694,166 L706,170 L710,180 L705,190 L692,194
+       L678,190 L673,180 Z"/>
+
+  <!-- Sumatra -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M645,182 L662,178 L674,182 L672,192 L656,195 L643,190 Z"/>
+
+  <!-- Java -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.15)" stroke-width="0.4"
+    d="M668,198 L682,195 L692,199 L688,206 L672,206 Z"/>
+
+  <!-- Philippines -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M706,140 L714,136 L720,141 L716,150 L708,152 L703,146 Z"/>
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.15)" stroke-width="0.4"
+    d="M714,152 L720,149 L724,154 L718,160 L712,157 Z"/>
+
+  <!-- New Guinea -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.5"
+    d="M730,215 L750,210 L766,212 L774,220 L768,228 L750,230
+       L734,226 Z"/>
+
+  <!-- Australia -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.3)" stroke-width="0.7"
+    d="M700,262 L720,256 L742,254 L762,256 L778,263 L789,273
+       L794,286 L793,300 L786,313 L774,324 L758,330 L740,332
+       L722,328 L706,320 L694,308 L688,294 L688,280 L692,268 Z"/>
+
+  <!-- Tasmania -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.15)" stroke-width="0.4"
+    d="M742,336 L750,334 L754,340 L748,348 L740,346 Z"/>
+
+  <!-- New Zealand (North Island) -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M796,316 L804,312 L810,318 L806,326 L798,326 Z"/>
+  <!-- South Island -->
+  <path fill="#0d2040" stroke="rgba(0,198,255,0.2)" stroke-width="0.4"
+    d="M796,328 L806,326 L812,334 L806,344 L796,342 L792,335 Z"/>
+
+  <!-- Graticule lines (subtle) -->
+  <g stroke="rgba(0,198,255,0.06)" stroke-width="0.5" fill="none">
+    <!-- Longitude lines every 30deg -->
+    <line x1="75"  y1="0" x2="75"  y2="440"/>
+    <line x1="150" y1="0" x2="150" y2="440"/>
+    <line x1="225" y1="0" x2="225" y2="440"/>
+    <line x1="300" y1="0" x2="300" y2="440"/>
+    <line x1="375" y1="0" x2="375" y2="440"/>
+    <line x1="450" y1="0" x2="450" y2="440"/>
+    <line x1="525" y1="0" x2="525" y2="440"/>
+    <line x1="600" y1="0" x2="600" y2="440"/>
+    <line x1="675" y1="0" x2="675" y2="440"/>
+    <line x1="750" y1="0" x2="750" y2="440"/>
+    <line x1="825" y1="0" x2="825" y2="440"/>
+    <!-- Latitude lines every 30deg -->
+    <line x1="0" y1="73"  x2="900" y2="73"/>
+    <line x1="0" y1="147" x2="900" y2="147"/>
+    <line x1="0" y1="220" x2="900" y2="220"/>
+    <line x1="0" y1="293" x2="900" y2="293"/>
+    <line x1="0" y1="367" x2="900" y2="367"/>
+    <!-- Equator highlighted -->
+    <line x1="0" y1="220" x2="900" y2="220" stroke="rgba(0,198,255,0.12)" stroke-width="1"/>
+  </g>
+</svg>
